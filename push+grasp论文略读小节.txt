@@ -1,0 +1,67 @@
+1、《Robust object grasping in clutter via singulation》
+	I、目标物块抓取任务
+	II、通过场景的深度图确定推动策略
+	III、关注于实现无碰撞抓取
+	IV、关注于目标物体和周围物体的结构
+	V、对场景和推动相关结构的抽象
+2、《Split Deep Q-Learning for Robust Object Singulation》
+	I、对文章1的改进
+	II、Split DQN算法，每个原语动作独立学习（可以关注）
+	III、模块化，便于迁移应用，同时可以减少样本的复杂度，降低采样复杂性并提高学习效率 
+3、《Collaborative Pushing and Grasping of Tightly Stacked Objects via Deep Reinforcement Learning》
+	I、复现的文章（重点，这篇文章和之前的文章最为相似）
+	II、提取新的push-grasp策略以抑制学习过程中出现的各种不合理动作
+	III、提出了PRNet，通过神经网络对推动奖励进行判定
+	IV、构建了全新的数据集，使用更加贴近日常的物体对算法进行训练和测试
+4、《Combining Reinforcement Learning and Rule-based Method to Manipulate Objects in Clutter》
+	I、强化学习训练抓取（twin delayed deep deterministic policy gradient）
+	II、使用传统抓取方法（rule-based）训练抓取
+	III、抓取检测认为不适合抓取时采用推动策略
+	IV、抓取的结果为推动策略提供奖励
+	V、系统输出的是连续动作
+5、《Efficient Learning of Goal-Oriented Push-Grasping Synergy in Clutter》
+	I、目标物块抓取任务
+	II、分层强化学习并且具有较高的采样效率
+	III、通过目标重标记使用目标条件的机制丰富回放缓冲区
+	IV、将推动和抓取视为生成器和鉴别器，通过对抗训练获得学习的奖励
+	V、对推动和抓取交替训练，解决分布不匹配的问题	
+	VI、稀疏奖励如何解决，如何转换为密集奖励，如何提高采样效率
+6、《Reinforcement Learning Based Pushing and Grasping Objects from Ungraspable Poses》
+	1、另一类问题，而且目前仅仅是对单个物体
+	2、可以参考，但不是现在
+7、《Augmenting Reinforcement Learning with Behavior Primitives for Diverse Manipulation Tasks》
+	I、分层强化学习
+	II、MAPLE
+	III、预定义多个动作原语，减少探索的负担
+	IV、动作原语也有几个更小的动作所构成，动作原语可以理解为一个完整的动作，相对high-level
+	V、执行任务的时候根据环境以及输入的参数从动作原语中选择合适的动作原语执行任务，也可以通过low-level的动作灵活调整
+	VI、后续可以考虑在我们的方法中引入分层强化学习或者之前所学习到的RL+模仿学习（BC）的方法
+	VII、如何训练这些预定义的动作，具体网络结构？
+8、Dense? Sparse? Dense2Sparse! 一种奇怪且有效的奖励函数设计方案（也可以用于后续学习）
+	I、实际上任务的奖励应该是稀疏的，变为密集的是否有助于任务？还需要继续学习强化学习的知识
+
+9、《Towards Practical Multi-Object Manipulation using Relational Reinforcement Learning》（值得复现）
+	I、通过课程学习（从简单到困难的学习过程）对算法进行训练
+	II、通过Relation RL对课程学习中存在的问题进行解决
+		（We hypothesize that the inability of the state of-the-art algorithms to effectively utilize a task curriculum
+ 		stems from the absence of inductive biases for transferring knowledge from simpler to complex tasks.）
+	III、step-wise sparse reward
+	IV、零样本泛化，可实现未知的任务不需要更多的训练
+	V、dense reward：经常提供一些有关任务信息的奖励称为密集奖励，每一步都提供奖励（所以需要和环境不断交互）
+	      sparse reward：完成整个任务之后给予奖励
+	      step-wise sparse reward：完成关键步骤之后提供奖励
+	VI、避免稀疏奖励的挑战：a）人类演示 b）sim2real转移（？）c）对环境设计从而简化任务 d）设计合理的奖励函数 存疑 如何从稀疏奖励中高效学习
+	VII、减少数据的需求，提高数据的效率	
+	VIII、课程学习中的一些问题（逐步增加任务难度，任务结构不变但是输入的分布可能会改变，在没有适当归纳偏差处理输入变化的情况下，
+				智能体会将其视为新的问题，就导致之前的课程学习没有被利用上）
+		个人猜想（就是需要有人告诉你，这门课比上一门难了，难在什么地方之类的）无法传递知识，可以传递只是人们觉得的
+	IX、解决数据分布的方法就是数据增强（域随机化 domain randomization）
+	X、通过基于注意力机制的图神经网络表示策略（！）解决上述问题，课程学习，通过GNN提供适当的偏差补充课程，便于在不同难度课程中传递知识
+	XI、泛化能力强，没有任何特定任务的假设，本文假设了课程学习迁移效果一般的原因	
+	密集---稀疏---更高效的算法---迁移学习pre-training--课程学习---本文的方法
+
+放假回来先把文章3通读然后做一些复现
+
+稀疏奖励、密集奖励、增强学习（逆强化学习、探索和利用平衡）、辅助奖励、设计合适的奖励函数
+
+免模型、基于模型、分层强化学习、组合任务结构

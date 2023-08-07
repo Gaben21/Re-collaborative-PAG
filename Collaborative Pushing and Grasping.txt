@@ -1,0 +1,48 @@
+Title+Abstract+Introduction
+
+Related Work
+	Grasp：
+		《DenseFusion: 6D object pose estimation by iterative dense fusion》—— need 3D model information
+	Push：
+		I、对物体进行分割，再根据分割结果生成推动动作集（类似DIPN）
+		     若分割不准确，特别是对于未知物体，则对鲁棒性有很大的影响（DIPN也存在类似的问题）
+		II、Andrychowicz HER 可在稀疏二元奖励下推动的策略（任务过于简单）
+		III、Kiatos 将单个目标物体从所有物体中分离 《Robust object grasping in clutter via singulation》
+	Multi-task Learning：
+		push reward
+Method
+	A、Collaborative Pushing and Grasping Network
+		I、action components：1）action type 2）location 3）rotation angle 4）push length
+		II、Action-PNet Action-GNet：121-layer DenseNet pretrained on ImageNet
+		III、Feature concatenation
+		IV、Block with BN+ReLU+1×1Conv
+		V、Bilinear interpolation layer
+		VI、设计了有效的先验约束，减少动作空间复杂性，加速训练过程 dynamic action mask M
+			push：物体的轮廓 grasp：物体的中心点
+	B、PolicyNMS
+		redundant boxes and calculate confidences（object percentage）
+		通过网络A可以得到16个方向上动作点以及对应的预测Q值
+		执行16个动作，记录每个动作的位移并生成对应的redundant box，计算每个shift的object percentage
+	C、Rewards for Pushing and Grasping（？）
+		Push reward：
+		设计神经网络计算分离和聚合的趋势，用于评价推动奖励
+		输入推动前后的深度图，使用网络得到分离和聚合的趋势，并得到推动奖励
+		这个方法可靠性存疑，和另一篇文章的想法存在较大的差异		
+		Grasp reward：
+		考虑到夹爪的方向和物体的方向间的差距，可以对抓取方向进行微调
+	D、CHID
+		考虑更多种多样的抓取物体
+IV、Experimental results
+	A、Implementation Details
+		使用的是DQN，经验回放方法是PER(可以考虑使用HER)PER和HER区别
+		使用水平和垂直翻转实现数据增强
+		课程学习方法过于简单，且存在之前某篇文章所说的问题
+	B、Pushing and Grasping Results in Simulation Scenarios
+		使用的评价指标太少	
+	C、消融实验
+		PRNet和PolicyNMS部分：Model1如何实现，如何判断完全分离并给予奖励，找到这两个的缺点并改进	
+		角度约束和PolicyNMS部分：角度约束作用不大
+	D、现实世界应用
+		推抓动作的选择？达到一定的分离度就开始以抓为主？
+结论
+	可以改进的方向，对推动距离的考虑，推动有可能使得物体被推出工作空间	
